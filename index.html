@@ -7,626 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --bg: #ffffff;
-      --bg2: #f4f6f9;
-      --bg3: #e8edf4;
-      --cream: #0a0a0a;
-      --gold: #00205b;
-      --gold-light: #1a3d7c;
-      --muted: #5a6a85;
-      --border: rgba(0,32,91,0.15);
-      --text: #1a2a40;
-      --accent: #00205b;
-    }
-
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'DM Sans', sans-serif;
-      font-weight: 300;
-      overflow-x: hidden;
-      cursor: none;
-    }
-
-    a, button { cursor: none; }
-
-    /* cursor handled inline */
-
-    /* ── NAV ── */
-    nav {
-      position: fixed; top: 0; left: 0; right: 0;
-      z-index: 100;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 24px 60px;
-      background: linear-gradient(to bottom, rgba(255,255,255,0.97), transparent);
-    }
-    .nav-logo {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.2rem;
-      color: var(--gold);
-      letter-spacing: 0.05em;
-      text-decoration: none;
-    }
-    .nav-links {
-      display: flex; gap: 40px; list-style: none;
-    }
-    .nav-links a {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.72rem;
-      color: var(--muted);
-      text-decoration: none;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      transition: color 0.3s;
-    }
-    .nav-links a:hover { color: var(--gold-light); }
-
-    /* ── HERO ── */
-    #hero {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      padding: 120px 60px 80px;
-      position: relative;
-      overflow: hidden;
-    }
-    .hero-grain {
-      position: absolute; inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-      pointer-events: none;
-      opacity: 0.6;
-    }
-    .hero-lines {
-      position: absolute; top: 0; right: 0;
-      width: 55%; height: 100%;
-      background: repeating-linear-gradient(
-        -60deg,
-        transparent,
-        transparent 80px,
-        rgba(0,32,91,0.04) 80px,
-        rgba(0,32,91,0.04) 81px
-      );
-      pointer-events: none;
-    }
-    .hero-inner {
-      position: relative; z-index: 2;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      align-items: center;
-      gap: 80px;
-      width: 100%;
-      max-width: 1200px;
-    }
-    .hero-photo-wrap {
-      flex-shrink: 0;
-    }
-    .hero-photo-frame {
-      width: 300px;
-      border-radius: 50%;
-      aspect-ratio: 1/1;
-      position: relative;
-      overflow: hidden;
-    }
-    .hero-photo-frame::before {
-      content: '';
-      position: absolute; inset: 0;
-      border: 1px solid var(--border);
-      z-index: 2; pointer-events: none;
-    }
-    .hero-photo-frame::after {
-      content: '';
-      position: absolute;
-      bottom: -14px; right: -14px;
-      width: 100%; height: 100%;
-      border: 1px solid rgba(0,32,91,0.15);
-      z-index: -1;
-    }
-    .hero-photo-frame img {
-      width: 100%; height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-    .hero-photo-placeholder {
-      width: 100%; height: 100%;
-      background: var(--bg3);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      color: var(--muted);
-      font-family: 'DM Mono', monospace;
-      font-size: 0.7rem;
-      letter-spacing: 0.1em;
-    }
-    .hero-photo-placeholder svg { opacity: 0.3; }
-    .hero-eyebrow {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.7rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 28px;
-      display: flex; align-items: center; gap: 16px;
-    }
-    .hero-eyebrow::before {
-      content: '';
-      display: inline-block;
-      width: 40px; height: 1px;
-      background: var(--gold);
-    }
-    h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(3.5rem, 8vw, 7rem);
-      font-weight: 900;
-      line-height: 0.95;
-      letter-spacing: -0.02em;
-      color: #00205b;
-      margin-bottom: 12px;
-    }
-    h1 em {
-      font-style: italic;
-      color: var(--gold);
-    }
-    .hero-sub {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.85rem;
-      color: var(--muted);
-      margin-top: 28px;
-      line-height: 1.8;
-      max-width: 480px;
-      letter-spacing: 0.03em;
-    }
-    .hero-cta {
-      margin-top: 52px;
-      display: flex; gap: 20px; align-items: center;
-    }
-    .btn-primary {
-      display: inline-block;
-      padding: 14px 36px;
-      background: var(--gold);
-      color: #ffffff;
-      font-family: 'DM Mono', monospace;
-      font-size: 0.72rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      text-decoration: none;
-      font-weight: 500;
-      transition: background 0.3s, transform 0.2s;
-    }
-    .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
-    .btn-ghost {
-      display: inline-block;
-      padding: 14px 36px;
-      border: 1px solid var(--border);
-      color: var(--muted);
-      font-family: 'DM Mono', monospace;
-      font-size: 0.72rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      text-decoration: none;
-      transition: border-color 0.3s, color 0.3s;
-    }
-    .btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
-
-    /* ── SECTION SHARED ── */
-    section {
-      padding: 120px 60px;
-      position: relative;
-    }
-    .section-label {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.65rem;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 12px;
-      display: flex; align-items: center; gap: 14px;
-    }
-    .section-label::after {
-      content: '';
-      flex: 1;
-      max-width: 60px;
-      height: 1px;
-      background: var(--gold);
-      opacity: 0.5;
-    }
-    h2 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(2rem, 4vw, 3.2rem);
-      font-weight: 700;
-      color: #00205b;
-      margin-bottom: 60px;
-    }
-
-    /* ── ABOUT ── */
-    #about { background: var(--bg); }
-    .about-grid {
-      display: block;
-      max-width: 800px;
-    }
-    .about-text p {
-      color: var(--muted);
-      font-size: 1rem;
-      line-height: 1.9;
-      margin-bottom: 20px;
-    }
-    .about-text p:first-of-type {
-      font-size: 1.15rem;
-      color: var(--text);
-      line-height: 1.7;
-    }
-    .about-stats {
-      display: flex; gap: 40px;
-      margin-top: 48px;
-      padding-top: 40px;
-      border-top: 1px solid var(--border);
-    }
-    .stat-num {
-      font-family: 'Playfair Display', serif;
-      font-size: 2.2rem;
-      font-weight: 700;
-      color: var(--gold);
-      line-height: 1;
-    }
-    .stat-label {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.65rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-top: 6px;
-    }
-
-    /* ── CURRICULUM ── */
-    #curriculum { background: var(--bg2); }
-    .timeline {
-      max-width: 800px;
-      position: relative;
-    }
-    .timeline::before {
-      content: '';
-      position: absolute;
-      left: 0; top: 8px; bottom: 0;
-      width: 1px;
-      background: linear-gradient(to bottom, var(--gold), transparent);
-      opacity: 0.3;
-    }
-    .timeline-item {
-      padding-left: 48px;
-      margin-bottom: 56px;
-      position: relative;
-      animation: fadeUp 0.6s ease both;
-    }
-    .timeline-item:nth-child(1) { animation-delay: 0.1s; }
-    .timeline-item:nth-child(2) { animation-delay: 0.25s; }
-    .timeline-item:nth-child(3) { animation-delay: 0.4s; }
-    .timeline-item:nth-child(4) { animation-delay: 0.55s; }
-    .timeline-dot {
-      position: absolute;
-      left: -4px; top: 8px;
-      width: 9px; height: 9px;
-      border-radius: 50%;
-      background: var(--gold);
-      box-shadow: 0 0 12px rgba(0,32,91,0.4);
-    }
-    .timeline-date {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.67rem;
-      letter-spacing: 0.15em;
-      color: var(--gold);
-      text-transform: uppercase;
-      margin-bottom: 10px;
-    }
-    .timeline-role {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.35rem;
-      color: var(--cream);
-      margin-bottom: 4px;
-    }
-    .timeline-company {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.75rem;
-      color: var(--muted);
-      letter-spacing: 0.08em;
-      margin-bottom: 14px;
-    }
-    .timeline-desc {
-      color: var(--muted);
-      font-size: 0.92rem;
-      line-height: 1.8;
-    }
-
-    /* ── PROJECTS ── */
-    #projects { background: var(--bg); }
-    .projects-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-      gap: 2px;
-    }
-    .project-card {
-      background: var(--bg2);
-      position: relative;
-      overflow: hidden;
-      animation: fadeUp 0.6s ease both;
-    }
-    .project-card:nth-child(1) { animation-delay: 0.1s; }
-    .project-card:nth-child(2) { animation-delay: 0.25s; }
-    .project-card:nth-child(3) { animation-delay: 0.4s; }
-    .project-card::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      border: 1px solid transparent;
-      transition: border-color 0.4s;
-      z-index: 5;
-      pointer-events: none;
-    }
-    .project-card:hover::before { border-color: var(--gold); }
-    .project-img {
-      aspect-ratio: 16/10;
-      overflow: hidden;
-      position: relative;
-    }
-    .project-img img {
-      width: 100%; height: 100%;
-      object-fit: cover;
-      transition: transform 0.5s ease, filter 0.5s;
-      filter: grayscale(30%) brightness(0.85);
-    }
-    .project-card:hover .project-img img {
-      transform: scale(1.04);
-      filter: grayscale(0%) brightness(1);
-    }
-    .project-img-placeholder {
-      width: 100%; height: 100%;
-      background: var(--bg3);
-      display: flex; align-items: center; justify-content: center;
-      color: var(--muted);
-      font-size: 2rem;
-    }
-    .project-body { padding: 28px 28px 24px; }
-    .project-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.25rem;
-      color: var(--cream);
-      margin-bottom: 10px;
-    }
-    .project-desc {
-      font-size: 0.88rem;
-      color: var(--muted);
-      line-height: 1.75;
-      margin-bottom: 18px;
-    }
-    .project-tags {
-      display: flex; flex-wrap: wrap; gap: 8px;
-      margin-bottom: 20px;
-    }
-    .tag {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.62rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      padding: 4px 12px;
-      border: 1px solid var(--border);
-      color: var(--gold);
-      background: rgba(0,32,91,0.05);
-    }
-    .project-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      font-family: 'DM Mono', monospace;
-      font-size: 0.7rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--muted);
-      text-decoration: none;
-      transition: color 0.3s;
-    }
-    .project-link:hover { color: var(--gold); }
-    .project-link svg { transition: transform 0.3s; }
-    .project-link:hover svg { transform: translateX(4px); }
-
-    /* ── SKILLS ── */
-    #skills { background: var(--bg2); }
-    .skills-layout {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 2px;
-      max-width: 1100px;
-    }
-    .skill-group {
-      background: var(--bg3);
-      padding: 36px 32px;
-      animation: fadeUp 0.5s ease both;
-    }
-    .skill-group:nth-child(1) { animation-delay: 0.1s; }
-    .skill-group:nth-child(2) { animation-delay: 0.2s; }
-    .skill-group:nth-child(3) { animation-delay: 0.3s; }
-    .skill-group:nth-child(4) { animation-delay: 0.4s; }
-    .skill-group-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.05rem;
-      color: var(--cream);
-      margin-bottom: 24px;
-      padding-bottom: 14px;
-      border-bottom: 1px solid var(--border);
-      display: flex; align-items: center; gap: 10px;
-    }
-    .skill-group-title span {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.65rem;
-      color: var(--gold);
-      letter-spacing: 0.1em;
-    }
-    .skill-list { display: flex; flex-direction: column; gap: 14px; }
-    .skill-name {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.75rem;
-      letter-spacing: 0.08em;
-      color: var(--text);
-      margin-bottom: 6px;
-      display: flex; justify-content: space-between;
-    }
-    .skill-bar {
-      height: 4px;
-      background: rgba(0,32,91,0.1);
-      position: relative;
-      overflow: hidden;
-      border-radius: 2px;
-    }
-    .skill-bar-fill {
-      height: 100%;
-      background: linear-gradient(to right, #00205b, #1a3d7c);
-      width: var(--fill-w, 80%);
-      border-radius: 2px;
-      animation: growBar 1.2s cubic-bezier(0.4, 0, 0.2, 1) both;
-      animation-delay: 0.6s;
-    }
-    @keyframes growBar {
-      from { width: 0%; }
-      to   { width: var(--fill-w, 80%); }
-    }
-
-    /* ── CONTACT ── */
-    #contact {
-      background: var(--bg);
-      min-height: 70vh;
-      display: flex;
-      align-items: center;
-    }
-    .contact-inner {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 100px;
-      align-items: start;
-      max-width: 1000px;
-      width: 100%;
-    }
-    .contact-text h2 { margin-bottom: 20px; }
-    .contact-text p {
-      color: var(--muted);
-      font-size: 0.95rem;
-      line-height: 1.8;
-      margin-bottom: 40px;
-    }
-    .contact-links { display: flex; flex-direction: column; gap: 16px; }
-    .contact-link {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      font-family: 'DM Mono', monospace;
-      font-size: 0.75rem;
-      letter-spacing: 0.1em;
-      color: var(--muted);
-      text-decoration: none;
-      transition: color 0.3s;
-    }
-    .contact-link:hover { color: var(--gold); }
-    .contact-link-icon {
-      width: 36px; height: 36px;
-      border: 1px solid var(--border);
-      display: flex; align-items: center; justify-content: center;
-      transition: border-color 0.3s;
-    }
-    .contact-link:hover .contact-link-icon { border-color: var(--gold); }
-    .contact-form { display: flex; flex-direction: column; gap: 20px; }
-    .form-group { display: flex; flex-direction: column; gap: 8px; }
-    .form-label {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.65rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-    .form-input, .form-textarea {
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      padding: 14px 18px;
-      color: var(--text);
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.9rem;
-      outline: none;
-      transition: border-color 0.3s;
-      width: 100%;
-    }
-    .form-input:focus, .form-textarea:focus { border-color: var(--gold); }
-    .form-textarea { resize: vertical; min-height: 120px; }
-    .form-submit {
-      align-self: flex-start;
-      padding: 14px 40px;
-      background: var(--gold);
-      color: #ffffff;
-      font-family: 'DM Mono', monospace;
-      font-size: 0.72rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      font-weight: 500;
-      border: none;
-      cursor: pointer;
-      transition: background 0.3s, transform 0.2s;
-    }
-    .form-submit:hover { background: var(--gold-light); transform: translateY(-2px); }
-
-    /* ── FOOTER ── */
-    footer {
-      background: var(--bg2);
-      padding: 32px 60px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-top: 1px solid var(--border);
-    }
-    footer p {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.65rem;
-      color: var(--muted);
-      letter-spacing: 0.1em;
-    }
-
-    /* ── ANIMATIONS ── */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(24px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    .hero-content > * {
-      animation: fadeUp 0.8s ease both;
-    }
-    .hero-photo-wrap { animation: fadeUp 0.8s ease both; animation-delay: 0.3s; }
-    .hero-eyebrow { animation-delay: 0.1s; }
-    h1 { animation-delay: 0.2s; }
-    .hero-sub { animation-delay: 0.35s; }
-    .hero-cta { animation-delay: 0.5s; }
-
-    /* ── RESPONSIVE ── */
-    @media (max-width: 900px) {
-      nav { padding: 20px 24px; }
-      .nav-links { gap: 24px; }
-      section { padding: 80px 24px; }
-      #hero { padding: 100px 24px 60px; }
-      .hero-inner { gap: 40px; }
-      .hero-photo-frame { width: 200px; }
-      .contact-inner { grid-template-columns: 1fr; gap: 60px; }
-      footer { padding: 24px; flex-direction: column; gap: 8px; text-align: center; }
-    }
-    @media (max-width: 600px) {
-      .nav-links { display: none; }
-      .projects-grid { grid-template-columns: 1fr; }
-      .skills-layout { grid-template-columns: 1fr; }
-      .about-stats { gap: 24px; }
-      .hero-photo-frame { width: 130px; }
-      .hero-inner { gap: 24px; }
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -652,8 +33,12 @@
       <div class="hero-content">
         <div class="hero-eyebrow">Available for opportunities</div>
         <h1><em>Hello!</em><br>I'm Eya.</h1>
-        <p class="hero-sub">Software Engineer · Designer · Problem Solver<br>
-        Building thoughtful digital experiences at the intersection of craft and code.</p>
+        <p class="hero-sub"><strong>Software Engineer · Embedded Systems · Problem Solver</strong></p>
+        <p class="hero-sub">Building thoughtful digital experiences at the intersection of craft and code.</p>
+        <p class="hero-quote">"The walls between art and engineering exist only in our minds, and few go beyond them"
+- Theo Jansen
+
+</p>
         <div class="hero-cta">
           <a href="#projects" class="btn-primary">View My Work</a>
           <a href="#contact" class="btn-ghost">Get In Touch</a>
@@ -678,28 +63,27 @@
     <div class="section-label">01 &mdash; About Me</div>
     <div class="about-grid">
       <div class="about-text">
-        <h2>Crafting code<br>with <em>intention.</em></h2>
+        <h2>Crafting software
+        <br><em>for systems that matter. </em></h2>
         <p>
-          Hi, I'm <strong style="color:var(--gold)">Your Name</strong>, a passionate developer with a love for building things that matter. I specialize in creating elegant, performant web applications and thrive at the intersection of design and engineering.
+        Hi, I'm Eya, a software engineer with a passion for building reliable and efficient systems. I enjoy working close to the core of technology, from embedded and real-time programming to tools that help complex systems operate safely and predictably.
         </p>
+
         <p>
-          With a background in [your field], I bring a unique perspective to every project. I believe great software is as much about the experience as the code behind it — details matter, performance matters, and clarity matters.
+        With a background in digital engineering and experience in the aerospace domain, I have contributed to the development of <strong><em>flight calculators</em></strong> while working with the flight control team for <strong><em>Airbus</em></strong> at <strong>Sopra Steria</strong>. This experience strengthened my skills in C, Ada, and Python, and deepened my interest in software used to support the testing, analysis, and performance of complex <strong><em>aerospace systems</em></strong>.
         </p>
+
         <p>
-          When I'm not coding, you'll find me [your hobbies/interests]. I'm always looking for new challenges and collaborators.
+        I believe good software is built with clarity, precision, and purpose. Whether it's optimizing performance, designing clean architectures, or understanding how software interacts with hardware, I enjoy solving problems where both engineering rigor and creativity matter.
         </p>
         <div class="about-stats">
           <div>
-            <div class="stat-num">3+</div>
+            <div class="stat-num">2+</div>
             <div class="stat-label">Years Exp.</div>
           </div>
           <div>
-            <div class="stat-num">20+</div>
-            <div class="stat-label">Projects</div>
-          </div>
-          <div>
             <div class="stat-num">10+</div>
-            <div class="stat-label">Happy Clients</div>
+            <div class="stat-label">Projects</div>
           </div>
         </div>
       </div>
@@ -714,43 +98,149 @@
 
       <div class="timeline-item">
         <div class="timeline-dot"></div>
-        <div class="timeline-date">2023 — Present</div>
-        <div class="timeline-role">Senior Software Engineer</div>
-        <div class="timeline-company">Company Name &nbsp;·&nbsp; Full-time</div>
+        <div class="timeline-date">September 2024 — September 2025</div>
+        <div class="timeline-role">Embedded Software Engineer</div>
+        <div class="timeline-company">Sopra Steria, for Airbus &nbsp;·&nbsp; Full-time</div>
         <p class="timeline-desc">
-          Describe your key responsibilities and achievements here. Focus on impact: what did you build, improve, or lead? Mention technologies used and quantify results where possible.
+        Contributed to the development and maintenance of DAL-A critical flight control software for Airbus flight computers, implementing Design Change Requests in C and Assembly, performing validation and functional testing in Ada, and supporting DO-178B certification activities within a certified aerospace environment.
         </p>
+        <div class="project-tags">
+            <span class="tag">C</span>
+            <span class="tag">Assembly</span>
+            <span class="tag">Ada</span>
+            <span class="tag">Jira</span>
+            <span class="tag">gPM-SUMO</span>
+            <span class="tag">MARCEL</span>
+            <span class="tag">IMPACT</span>
+            <span class="tag">SCADE</span>
+        </div>
       </div>
 
       <div class="timeline-item">
         <div class="timeline-dot"></div>
-        <div class="timeline-date">2021 — 2023</div>
-        <div class="timeline-role">Software Engineer</div>
-        <div class="timeline-company">Previous Company &nbsp;·&nbsp; Full-time</div>
+        <div class="timeline-date">March 2024 — July 2024</div>
+        <div class="timeline-role">Research Intern – Cooperative Perception & Traffic Prediction</div>
+        <div class="timeline-company">IRIT – Institut de Recherche en Informatique de Toulouse &nbsp;·&nbsp; Internship</div>
+
         <p class="timeline-desc">
-          Describe your role here. What problems did you solve? What did you learn? Highlight teamwork, ownership, and any notable projects you shipped.
+        Development of a cooperative IoT platform for connected vehicles, enabling real-time data collection, object classification, and traffic prediction to improve road safety using machine learning and embedded systems.
         </p>
+
+        <div class="project-tags">
+            <span class="tag">Python</span>
+            <span class="tag">Java</span>
+            <span class="tag">Machine Learning</span>
+            <span class="tag">Computer Vision</span>
+            <span class="tag">Android</span>
+            <span class="tag">ESP32</span>
+            <span class="tag">STM32</span>
+            <span class="tag">LoRa</span>
+            <span class="tag">MySQL</span>
+        </div>
       </div>
 
       <div class="timeline-item">
         <div class="timeline-dot"></div>
-        <div class="timeline-date">Summer 2020</div>
-        <div class="timeline-role">Engineering Intern</div>
-        <div class="timeline-company">Internship Company &nbsp;·&nbsp; Internship</div>
+        <div class="timeline-date">Jun 2022 — Aug 2022</div>
+        <div class="timeline-role">CEO’s Associate</div>
+        <div class="timeline-company">Clarity &nbsp;·&nbsp; International Startup</div>
+
         <p class="timeline-desc">
-          Describe your internship experience, what you built or contributed to, and what skills you developed during this role.
+        Supported the CEO in the development of innovative R&D projects focused on Alzheimer’s disease research, contributing to project coordination, recruitment efforts, and the identification of funding and investment opportunities within an international multidisciplinary environment.
         </p>
+
+        <div class="project-tags">
+            <span class="tag">Project Management</span>
+            <span class="tag">R&D</span>
+            <span class="tag">Startup</span>
+            <span class="tag">Recruitment</span>
+            <span class="tag">Fundraising</span>
+        </div>
       </div>
 
       <div class="timeline-item">
         <div class="timeline-dot"></div>
-        <div class="timeline-date">2017 — 2021</div>
-        <div class="timeline-role">B.Sc. Computer Science</div>
-        <div class="timeline-company">University Name &nbsp;·&nbsp; Degree</div>
+        <div class="timeline-date">September 2024 — January 2025</div>
+        <div class="timeline-role">Systems Engineering Team</div>
+        <div class="timeline-company">Tolosat &nbsp;·&nbsp; Student nano-satellite project</div>
         <p class="timeline-desc">
-          Mention your degree, any specializations, relevant coursework, thesis, honors, or extracurricular activities that are relevant to your professional career.
+        Contributed to the systems engineering activities of a student CubeSat project, supporting system architecture definition, requirements analysis, and traceability management across satellite subsystems.
         </p>
+      
+        <div class="timeline-dot"></div>
+        <div class="timeline-date">September 2021 — June 2022</div>
+        <div class="timeline-role">Media Team</div>
+        <div class="timeline-company">Tolosat &nbsp;·&nbsp; Student nano-satellite project</div>
+        <p class="timeline-desc">
+        Designed and developed a responsive website and contributed to communication and partnership initiatives for a student CubeSat project through content creation and outreach activities.
+        </p>
+        <div class="project-tags">
+            <span class="tag">C</span>
+            <span class="tag">Html</span>
+            <span class="tag">CSS</span>
+            <span class="tag">JavaScript</span>
+        </div>
       </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-date">Dec 2021 — Jan 2022</div>
+        <div class="timeline-role">Web Developer</div>
+        <div class="timeline-company">N7 Consulting, for ÔToulouse &nbsp;·&nbsp; Contract</div>
+
+        <p class="timeline-desc">
+        Collaborated with N7Consulting to create a website for ÔToulouse, designing and developing a WordPress site that fully met client UX/UI and design requirements, using Figma for prototyping and ensuring intuitive, visually appealing user experiences.
+        </p>
+
+        <div class="project-tags">
+            <span class="tag">WordPress</span>
+            <span class="tag">Figma</span>
+            <span class="tag">UX/UI</span>
+            <span class="tag">Web Development</span>
+            <span class="tag">HTML</span>
+            <span class="tag">CSS</span>
+        </div>
+      </div>
+
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-date">Sep 2021 — Sep 2025</div>
+        <div class="timeline-role">Master of Engineering (MEng), Computer Science</div>
+        <div class="timeline-company">INP Toulouse – ENSEEIHT</div>
+
+        <p class="timeline-desc">
+        Engineering degree in Computer Science and Applied Mathematics with a specialization in embedded and critical systems. Coursework included real-time operating systems, real-time scheduling, concurrent and distributed systems, microprocessor architectures, and system dependability.
+        </p>
+
+        <div class="project-tags">
+            <span class="tag">Embedded Systems</span>
+            <span class="tag">RTOS</span>
+            <span class="tag">Real-Time Systems</span>
+            <span class="tag">Computer Networks</span>
+            <span class="tag">Microprocessor Architecture</span>
+            <span class="tag">System Safety</span>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-date">Sep 2019 — Jul 2021</div>
+        <div class="timeline-role">Preparatory Classes in Mathematics and Physics (PCSI–PSI*)</div>
+        <div class="timeline-company">Lycée Mohammed VI d’Excellence</div>
+
+        <p class="timeline-desc">
+        Intensive preparatory program for French Grandes Écoles, ranking among the top national candidates in competitive entrance exams while developing strong foundations in linear algebra, physics, and scientific computing.
+        </p>
+
+        <div class="project-tags">
+            <span class="tag">Mathematics</span>
+            <span class="tag">Physics</span>
+            <span class="tag">Linear Algebra</span>
+            <span class="tag">Scientific Computing</span>
+        </div>
+      </div>
+
 
     </div>
   </section>
@@ -917,29 +407,30 @@
         <h2>Let's Work<br><em>Together.</em></h2>
         <p>Whether you have a project in mind, a role to fill, or just want to say hello — my inbox is always open. I'll do my best to get back to you promptly.</p>
         <div class="contact-links">
-          <a href="/cdn-cgi/l/email-protection#1960766c597c74787075377a7674" class="contact-link">
+          <!-- EMAIL CONTACT -->
+          <!-- <a href="/cdn-cgi/l/email-protection#1960766c597c74787075377a7674" class="contact-link">
             <div class="contact-link-icon">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                 <rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
               </svg>
             </div>
             <span class="__cf_email__" data-cfemail="3f46504a7f5a525e5653115c5052">[email&#160;protected]</span>
-          </a>
-          <a href="https://github.com/yourusername" class="contact-link" target="_blank">
+          </a> -->
+          <a href="https://github.com/eyaam" class="contact-link" target="_blank">
             <div class="contact-link-icon">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                 <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
               </svg>
             </div>
-            github.com/yourusername
+            github.com/eyaam
           </a>
-          <a href="https://linkedin.com/in/yourprofile" class="contact-link" target="_blank">
+          <a href="https://linkedin.com/in/eyaamrach" class="contact-link" target="_blank">
             <div class="contact-link-icon">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                 <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/>
               </svg>
             </div>
-            linkedin.com/in/yourprofile
+            linkedin.com/in/eyaamrach
           </a>
         </div>
       </div>
@@ -951,7 +442,7 @@
           </div>
           <div class="form-group">
             <label class="form-label">Email</label>
-            <input type="email" class="form-input" placeholder="you@example.com" required>
+            <input type="email" class="form-input" placeholder="youremail@example.com" required>
           </div>
           <div class="form-group">
             <label class="form-label">Message</label>
@@ -965,8 +456,7 @@
 
   <!-- FOOTER -->
   <footer>
-    <p>© 2026 Your Name. Crafted with care.</p>
-    <p>Designed & built by you.</p>
+    <p>© 2026 Eya Amrach. Crafted with care.</p>
   </footer>
 
   <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
