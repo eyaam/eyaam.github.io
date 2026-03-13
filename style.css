@@ -382,6 +382,23 @@
       object-fit: cover;
       transition: transform 0.5s ease, filter 0.5s;
       filter: grayscale(30%) brightness(0.85);
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+    /* second image hidden initially */
+    .img-hover {
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+
+    /* when hovering project card */
+    .project-card:hover .img-hover {
+      opacity: 1;
+    }
+
+    .project-card:hover .img-main {
+      opacity: 0;
     }
     .project-card:hover .project-img img {
       transform: scale(1.04);
